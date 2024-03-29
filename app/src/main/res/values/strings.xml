@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Assessment1</string>
+    <string name="intro">Intro \n\n\n\n\na</string>
+    <string name="kategori_hewan">Kategori Hewan</string>
+    <string name="pisces">Pisces</string>
+    <string name="amfibi">Amfibi</string>
+    <string name="reptilia">Reptilia</string>
+    <string name="aves">Aves</string>
+    <string name="mamalia">Mamalia</string>
+    <string name="cara_makan">Makanan Hewan</string>
+    <string name="herbivora">Herbivora</string>
+    <string name="karnivora">Karnivora</string>
+    <string name="omnivora">Omnivora</string>
+    <string name="cari">Cari</string>
+    <string name="list_hewan">List Hewan</string>
+    <string name="deskripsi">Di bawah ini merupakan list beberapa hewan</string>
+    <string name="kembali">Kembali</string>
+    <string name="bagikan">Bagikan</string>
+    <string name="bagikan_template">Share</string>
 </resources>
