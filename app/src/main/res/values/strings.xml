@@ -16,5 +16,6 @@
     <string name="deskripsi">Di bawah ini merupakan list beberapa hewan</string>
     <string name="kembali">Kembali</string>
     <string name="bagikan">Bagikan</string>
-    <string name="bagikan_template">Share</string>
+    <string name="bagikan_template1">Tidak ada preferensi makanan yang dipilih</string>
+    <string name="bagikan_template2">%s </string>
 </resources>

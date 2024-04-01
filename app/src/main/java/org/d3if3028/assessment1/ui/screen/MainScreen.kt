@@ -1,5 +1,6 @@
 package org.d3if3028.assessment1.ui.screen
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -76,6 +77,7 @@ fun MainScreen(navController: NavHostController) {
     }
 }
 
+@SuppressLint("StringFormatMatches")
 @Composable
 fun ScreenContent(modifier: Modifier) {
     val radioOptions = listOf(
@@ -86,21 +88,16 @@ fun ScreenContent(modifier: Modifier) {
         stringResource(id = R.string.reptilia)
     )
     var kategori by rememberSaveable { mutableStateOf(radioOptions[0]) }
-
     val checkboxOptions = listOf(
         stringResource(id = R.string.herbivora),
         stringResource(id = R.string.karnivora),
         stringResource(id = R.string.omnivora)
     )
     var makanan by rememberSaveable { mutableStateOf(List(checkboxOptions.size) { false }) }
-
+    var pencarian by rememberSaveable { mutableStateOf("") }
     val context = LocalContext.current
-
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp),
+        modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -110,9 +107,7 @@ fun ScreenContent(modifier: Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
         Row(
-            modifier = Modifier
-                .padding(6.dp)
-                .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
+            modifier = Modifier.padding(6.dp).border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
         ) {
             Column(
                 modifier = Modifier.weight(1f),
@@ -137,7 +132,9 @@ fun ScreenContent(modifier: Modifier) {
                     modifier = Modifier.padding(16.dp)
                 )
             }
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(
+                modifier = Modifier.width(16.dp)
+            )
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -157,9 +154,7 @@ fun ScreenContent(modifier: Modifier) {
             }
         }
         Row(
-            modifier = Modifier
-                .padding(6.dp)
-                .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
+            modifier = Modifier.padding(6.dp).border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
         ) {
             Column(
                 modifier = Modifier.weight(1f),
@@ -176,11 +171,13 @@ fun ScreenContent(modifier: Modifier) {
             }
         }
         Button(
-            onClick = { cariHewan(kategori, makanan, checkboxOptions) },
+            onClick = { pencarian = cariHewan(kategori, makanan, checkboxOptions) },
             modifier = Modifier.padding(top = 8.dp),
             contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
         ) {
-            Text(text = stringResource(R.string.cari))
+            Text(
+                text = stringResource(R.string.cari)
+            )
         }
         if (pencarian.isNotBlank()) {
             Divider(
@@ -195,15 +192,21 @@ fun ScreenContent(modifier: Modifier) {
             Button(
                 onClick =
                 {
+                    val message = when {
+                        pencarian.startsWith("Tidak ada preferensi makanan yang dipilih") -> context.getString(R.string.bagikan_template1)
+                        else -> context.getString(R.string.bagikan_template2, pencarian)
+                    }
                     shareData(
                         context = context,
-                        message = context.getString(R.string.bagikan_template)
+                        message = message
                     )
                 },
                 modifier = Modifier.padding(top = 8.dp),
                 contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
             ) {
-                Text(text = stringResource(R.string.bagikan))
+                Text(
+                    text = stringResource(R.string.bagikan)
+                )
             }
         }
     }
@@ -212,11 +215,14 @@ fun ScreenContent(modifier: Modifier) {
 @Composable
 fun KategoriOption(label: String, isSelected: Boolean, onSelected: () -> Unit, modifier: Modifier) {
     Row(
-        modifier = modifier.clickable ( onClick = onSelected ),
+        modifier = modifier.clickable (onClick = onSelected),
         verticalAlignment = Alignment.CenterVertically
     )
      {
-        RadioButton(selected = isSelected, onClick = null, modifier = Modifier.padding(end = 8.dp))
+        RadioButton(
+            selected = isSelected,
+            onClick = null, modifier = Modifier.padding(end = 8.dp)
+        )
         Text(
             text = label,
             style = MaterialTheme.typography.bodyLarge,
@@ -244,59 +250,48 @@ fun MakananOption(label: String, isChecked: Boolean, onCheckedChange: (Boolean) 
     }
 }
 
-private var pencarian by mutableStateOf("")
-private fun cariHewan(kategori: String, makanan: List<Boolean>, checkboxOptions: List<String>) {
-    when (kategori) {
-        "Amfibi" -> {
-            if (makanan.contains(true)) {
-                val selectedMakan = mutableListOf<String>()
-                makanan.forEachIndexed { index, checked ->
-                    if (checked) {
-                        selectedMakan.add(checkboxOptions[index])
-                    }
-                }
-                val textMakan = selectedMakan.joinToString(", ")
-                println("Preferensi makanan yang dipilih: $textMakan")
-
-                when {
-                    selectedMakan.contains("Herbivora") -> {
-                        println("Hewan Amfibi: Kodok pohon, Preferensi makanan: Herbivora")
-                    }
-                    selectedMakan.contains("Karnivora") -> {
-                        println("Hewan Amfibi: Katak Goliath, Preferensi makanan: Karnivora")
-                    }
-                    selectedMakan.contains("Omnivora") -> {
-                        println("Hewan Amfibi: Katak darat Amerika, Preferensi makanan: Omnivora")
-                    }
-                }
-            } else {
-                println("Tidak ada jenis makanan yang dipilih")
-            }
-        }
-        "Aves" -> {
-
-        }
-        "Mamalia" -> {
-
-        }
-        "Pisces" -> {
-
-        }
-        "Reptilia" -> {
-
-        }
-    }
+private fun cariHewan(kategori: String, makanan: List<Boolean>, checkboxOptions: List<String>): String {
+    val hewanMap = mapOf(
+        "Amfibi" to mapOf(
+            "Herbivora" to listOf("Kodok Pohon, Katak Amerika, Salamander Cecak"),
+            "Karnivora" to listOf("Katak Goliath, Salamander berjengger, Axolotl, Katak darat Afrika, Katak pohon Amerika Selatan"),
+            "Omnivora" to listOf("Katak darat Amerika, Katak darat Eropa, Katak pohon merah, Salamander warna-warni, Katak merah")
+        ),
+        "Aves" to mapOf(
+            "Herbivora" to listOf("Burung Beo, Burung Puyuh, Burung Merpati, Kalkun, Burung Flamengo"),
+            "Karnivora" to listOf("Elang botak, Falcon, Burung hantu, Rajawali, Alap-alap"),
+            "Omnivora" to listOf("Ayam, Merak, Burung pelatuk, Burung Kutilang, Burung Merpati Bandar")
+        ),
+        "Mamalia" to mapOf(
+            "Herbivora" to listOf("Gajah Afrika, Sapi, Kuda, Rusa, Kelinci"),
+            "Karnivora" to listOf("Singa, Harimau, Serigala abu-abu, Macan Tutul, Beruang cokelat"),
+            "Omnivora" to listOf("Babi, Beruang hitam, Tupai, Rakun, Musang")
+        ),
+        "Pisces" to mapOf(
+            "Herbivora" to listOf("Teri, Gurami, Sargassum, Parrot, Koi"),
+            "Karnivora" to listOf("Piranha, Hiu, Lele, Tuna, Bass"),
+            "Omnivora" to listOf("Mas, Mas Koki, Guppy, Betta, Rainbow")
+        ),
+        "Reptilia" to mapOf(
+            "Herbivora" to listOf("Kura-kura darat, Iguana hijau, Kura-kura air tawar, Kadal Iguana, Kura-kura Galapagos"),
+            "Karnivora" to listOf("Buaya Nil, Ular King Cobra, Kadal Komodo, Ular Piton, Ular Kobra"),
+            "Omnivora" to listOf("Kura-kura darat Afrika, Kura-kura sawah, Kadal semut, Kadal air, Ular Mamba hitam")
+        )
+    )
     val selectedMakan = mutableListOf<String>()
     makanan.forEachIndexed { index, checked ->
         if (checked) {
             selectedMakan.add(checkboxOptions[index])
         }
     }
-    if (selectedMakan.isNotEmpty()) {
-        pencarian = "Hasil Pencarian: Hewan Amfibi dengan makanan ${selectedMakan.joinToString(", ")}"
-    } else {
-        pencarian = "Tidak ada yang dipilih"
+    if (selectedMakan.isEmpty()) {
+        return "Tidak ada preferensi makanan yang dipilih"
     }
+    val hewanList = hewanMap[kategori]?.let { map ->
+        map.filterKeys { selectedMakan.contains(it) }.flatMap { (_, hewan) -> hewan }
+    } ?: emptyList()
+    val teks = "Hewan $kategori yang ${selectedMakan.joinToString(", ")} ada: "
+    return "$teks${hewanList.joinToString(", ")}"
 }
 
 private fun shareData(context: Context, message: String) {

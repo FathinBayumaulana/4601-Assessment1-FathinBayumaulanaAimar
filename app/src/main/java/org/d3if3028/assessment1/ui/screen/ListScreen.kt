@@ -59,9 +59,7 @@ fun ListScreen(navController: NavHostController) {
         ListContent(Modifier.padding(paddingValues))
         Text(
             text = stringResource(R.string.deskripsi),
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(16.dp)
+            modifier = Modifier.padding(paddingValues).padding(16.dp)
         )
     }
 }
@@ -70,7 +68,6 @@ fun ListScreen(navController: NavHostController) {
 fun ListContent(modifier: Modifier) {
     val viewModel: MainViewModel = viewModel()
     val data = viewModel.data
-
     LazyColumn(
         modifier = modifier.fillMaxSize()
     ) {
