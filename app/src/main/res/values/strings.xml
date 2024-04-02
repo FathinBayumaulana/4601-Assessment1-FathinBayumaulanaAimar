@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Assessment1</string>
-    <string name="intro">Intro \n\n\n\n\na</string>
+    <string name="app_name">Pencarian Hewan</string>
+    <string name="intro1">Aplikasi ini merupakan aplikasi pencarian serta penyimpanan informasi hewan layaknya sebuah kamus/ensiklopedia \nnamun dalam versi yang sangat simpel, cobalah sekarang! \n\nPilih kategorinya di bawah:</string>
+    <string name="intro2">Pilih jenis makanannya di bawah:</string>
     <string name="kategori_hewan">Kategori Hewan</string>
     <string name="pisces">Pisces</string>
     <string name="amfibi">Amfibi</string>
@@ -12,10 +13,15 @@
     <string name="karnivora">Karnivora</string>
     <string name="omnivora">Omnivora</string>
     <string name="cari">Cari</string>
-    <string name="list_hewan">List Hewan</string>
-    <string name="deskripsi">Di bawah ini merupakan list beberapa hewan</string>
+    <string name="list_hewan">Daftar Hewan</string>
+    <string name="deskripsi">Di bawah ini merupakan daftar informasi mengenai beberapa hewan:</string>
     <string name="kembali">Kembali</string>
     <string name="bagikan">Bagikan</string>
     <string name="bagikan_template1">Tidak ada preferensi makanan yang dipilih</string>
-    <string name="bagikan_template2">%s </string>
+    <string name="bagikan_template2">%s</string>
+    <string name="list_kosong">Belum ada data</string>
+    <string name="x_diklik">%1$s diklik!</string>
+    <string name="tambah">Tambah List Hewan</string>
+    <string name="tambah_error">Belum bisa tambah list hewan!</string>
+    <string name="gambar">Gambar %1$s</string>
 </resources>

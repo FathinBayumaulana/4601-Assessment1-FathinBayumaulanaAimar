@@ -102,7 +102,7 @@ fun ScreenContent(modifier: Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(id = R.string.intro),
+            text = stringResource(id = R.string.intro1),
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.fillMaxWidth()
         )
@@ -153,6 +153,11 @@ fun ScreenContent(modifier: Modifier) {
                 )
             }
         }
+        Text(
+            text = stringResource(id = R.string.intro2),
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.fillMaxWidth()
+        )
         Row(
             modifier = Modifier.padding(6.dp).border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
         ) {
@@ -259,7 +264,7 @@ private fun cariHewan(kategori: String, makanan: List<Boolean>, checkboxOptions:
         ),
         "Aves" to mapOf(
             "Herbivora" to listOf("Burung Beo, Burung Puyuh, Burung Merpati, Kalkun, Burung Flamengo"),
-            "Karnivora" to listOf("Elang botak, Falcon, Burung hantu, Rajawali, Alap-alap"),
+            "Karnivora" to listOf("Elang Botak, Falcon, Burung hantu, Rajawali, Alap-alap"),
             "Omnivora" to listOf("Ayam, Merak, Burung pelatuk, Burung Kutilang, Burung Merpati Bandar")
         ),
         "Mamalia" to mapOf(
@@ -268,9 +273,9 @@ private fun cariHewan(kategori: String, makanan: List<Boolean>, checkboxOptions:
             "Omnivora" to listOf("Babi, Beruang hitam, Tupai, Rakun, Musang")
         ),
         "Pisces" to mapOf(
-            "Herbivora" to listOf("Teri, Gurami, Sargassum, Parrot, Koi"),
-            "Karnivora" to listOf("Piranha, Hiu, Lele, Tuna, Bass"),
-            "Omnivora" to listOf("Mas, Mas Koki, Guppy, Betta, Rainbow")
+            "Herbivora" to listOf("Ikan Teri, Ikan Gurami, Ikan Sargassum, Ikan Parrot, Ikan Koi"),
+            "Karnivora" to listOf("Ikan Piranha, Ikan Hiu, Ikan Lele, Ikan Tuna, Ikan Bass"),
+            "Omnivora" to listOf("Ikan Mas, Ikan Mas Koki, Ikan Guppy, Ikan Betta, Ikan Rainbow")
         ),
         "Reptilia" to mapOf(
             "Herbivora" to listOf("Kura-kura darat, Iguana hijau, Kura-kura air tawar, Kadal Iguana, Kura-kura Galapagos"),
@@ -285,7 +290,7 @@ private fun cariHewan(kategori: String, makanan: List<Boolean>, checkboxOptions:
         }
     }
     if (selectedMakan.isEmpty()) {
-        return "Tidak ada preferensi makanan yang dipilih"
+        return "Tidak ada jenis makanan yang dipilih"
     }
     val hewanList = hewanMap[kategori]?.let { map ->
         map.filterKeys { selectedMakan.contains(it) }.flatMap { (_, hewan) -> hewan }
