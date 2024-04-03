@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Animal Search</string>
+    <string name="intro1">This application is an application to search and store animal information like a dictionary/encyclopedia \\nbut in a very simple version, try it now! \\n\\nSelect a category below:</string>
+    <string name="intro2">Choose the type of food below:</string>
+    <string name="kategori_hewan">Category Animals</string>
+    <string name="pisces">Pisces</string>
+    <string name="amfibi">Amphibians</string>
+    <string name="reptilia">Reptile</string>
+    <string name="aves">Aves</string>
+    <string name="mamalia">Mammal</string>
+    <string name="cara_makan">Fodder</string>
+    <string name="herbivora">Herbivores</string>
+    <string name="karnivora">Carnivores</string>
+    <string name="omnivora">Omnivorous</string>
+    <string name="cari">Search</string>
+    <string name="list_hewan">List of Animals</string>
+    <string name="deskripsi">Below is a list of information about some animals:</string>
+    <string name="kembali">Back</string>
+    <string name="bagikan">Share</string>
+    <string name="bagikan_template1">No food preferences selected</string>
+    <string name="bagikan_template2">%s</string>
+    <string name="list_kosong">No data yet</string>
+    <string name="x_diklik">%1$s clicked!</string>
+    <string name="tambah">Add Animal List</string>
+    <string name="tambah_error">Can\'t add animals yet!</string>
+    <string name="gambar">Image %1$s</string>
+</resources>
