@@ -19,10 +19,23 @@
     <string name="kembali">Back</string>
     <string name="bagikan">Share</string>
     <string name="bagikan_template1">No food preferences selected</string>
-    <string name="bagikan_template2">%s</string>
     <string name="list_kosong">No data yet</string>
     <string name="x_diklik">%1$s clicked!</string>
     <string name="tambah">Add Animal List</string>
-    <string name="tambah_error">Can\'t add animals yet!</string>
     <string name="gambar">Image %1$s</string>
+    <string name="tambah_catatan">Add Note</string>
+    <string name="kembali_catatan">Back</string>
+    <string name="simpan_catatan">Save</string>
+    <string name="edit_catatan">Edit</string>
+    <string name="kingdom">Kingdom</string>
+    <string name="makan">Food</string>
+    <string name="nama">Name</string>
+    <string name="invalid">List/Note can\'t be empty.</string>
+    <string name="lainnya">Another option</string>
+    <string name="hapus">Delete list</string>
+    <string name="pesan_hapus">Delete this list?</string>
+    <string name="tombol_hapus">Delete</string>
+    <string name="tombol_batal">Cancel</string>
+    <string name="list">List view</string>
+    <string name="grid">Grid view</string>
 </resources>
