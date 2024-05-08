@@ -28,7 +28,7 @@
     <string name="simpan_catatan">Save</string>
     <string name="edit_catatan">Edit</string>
     <string name="kingdom">Kingdom</string>
-    <string name="makan">Food</string>
+    <string name="makan">Type of food</string>
     <string name="nama">Name</string>
     <string name="invalid">List/Note can\'t be empty.</string>
     <string name="lainnya">Another option</string>
@@ -38,4 +38,5 @@
     <string name="tombol_batal">Cancel</string>
     <string name="list">List view</string>
     <string name="grid">Grid view</string>
+    <string name="empty_state">Empty Picture</string>
 </resources>

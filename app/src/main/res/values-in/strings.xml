@@ -28,7 +28,7 @@
     <string name="simpan_catatan">Simpan</string>
     <string name="edit_catatan">Ubah</string>
     <string name="kingdom">Kerajaan</string>
-    <string name="makan">Makan</string>
+    <string name="makan">Jenis makan</string>
     <string name="nama">Nama</string>
     <string name="invalid">List/Catatan tidak boleh kosong.</string>
     <string name="lainnya">Opsi lainnya</string>
@@ -38,4 +38,5 @@
     <string name="tombol_batal">Batal</string>
     <string name="list">Tampilan list</string>
     <string name="grid">Tampilan grid</string>
+    <string name="empty_state">Gambar Kosong</string>
 </resources>

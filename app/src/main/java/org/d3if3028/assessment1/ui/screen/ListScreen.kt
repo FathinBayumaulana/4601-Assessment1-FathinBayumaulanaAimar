@@ -159,6 +159,10 @@ fun ListContent(showList: Boolean, modifier: Modifier, navController: NavHostCon
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Image(
+                painter = painterResource(id = R.drawable.be61898f_55bf_4f9b_9aad_7fe5b50dfa02),
+                contentDescription = stringResource(id = R.string.empty_state)
+            )
             Text(
                 text = stringResource(id = R.string.list_kosong)
             )
