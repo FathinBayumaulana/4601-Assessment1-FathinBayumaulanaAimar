@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Pencarian Hewan</string>
+    <string name="app_name">Koleksi Hewan</string>
+    <string name="fitur1">Pencarian Hewan</string>
+    <string name="fitur2">Galeri Hewan</string>
     <string name="intro1">Aplikasi ini merupakan aplikasi pencarian serta penyimpanan informasi hewan layaknya sebuah kamus/ensiklopedia \nnamun dalam versi yang sangat simpel, cobalah sekarang! \n\nPilih kategorinya di bawah:</string>
     <string name="intro2">Pilih jenis makanannya di bawah:</string>
     <string name="kategori_hewan">Kategori Hewan</string>
