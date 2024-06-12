@@ -37,7 +37,7 @@ fun DialogPreview() {
     Assessment1Theme {
         DisplayAlertDialog(
             openDialog = true,
-            onDismissRequest = { /*TODO*/ },
+            onDismissRequest = { },
             onConfirmation = {  }
         )
     }

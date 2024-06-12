@@ -1,14 +1,10 @@
 package org.d3if3028.assessment1.ui.screen
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
-import org.d3if3028.assessment1.R
 import org.d3if3028.assessment1.database.HewanDao
 import org.d3if3028.assessment1.model.Hewan
 

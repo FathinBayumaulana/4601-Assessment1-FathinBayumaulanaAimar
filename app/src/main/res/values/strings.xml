@@ -2,7 +2,8 @@
     <string name="app_name">Koleksi Hewan</string>
     <string name="fitur1">Pencarian Hewan</string>
     <string name="fitur2">Galeri Hewan</string>
-    <string name="intro1">Aplikasi ini merupakan aplikasi pencarian serta penyimpanan informasi hewan layaknya sebuah kamus/ensiklopedia \nnamun dalam versi yang sangat simpel, cobalah sekarang! \n\nPilih kategorinya di bawah:</string>
+    <string name="intro_utama">Aplikasi ini merupakan aplikasi pencarian serta penyimpanan informasi hewan layaknya sebuah kamus/ensiklopedia \nnamun dalam versi yang sangat simpel, cobalah sekarang!</string>
+    <string name="intro1">Pilih kategorinya di bawah:</string>
     <string name="intro2">Pilih jenis makanannya di bawah:</string>
     <string name="kategori_hewan">Kategori Hewan</string>
     <string name="pisces">Pisces</string>
@@ -41,4 +42,14 @@
     <string name="list">Tampilan list</string>
     <string name="grid">Tampilan grid</string>
     <string name="empty_state">Gambar Kosong</string>
+    <string name="error">Gagal memuat data.. Koneksi Error</string>
+    <string name="try_again">Coba lagi</string>
+    <string name="profil">Profil</string>
+    <string name="tutup">Tutup</string>
+    <string name="logout">Log Out</string>
+    <string name="tambah_galeri">Tambah Hewan</string>
+    <string name="batal_galeri">Batal</string>
+    <string name="simpan_galeri">Simpan</string>
+    <string name="hapus_galeri">Hapus</string>
+    <string name="konfirmasi">Anda yakin ingin menghapus data ini?</string>
 </resources>

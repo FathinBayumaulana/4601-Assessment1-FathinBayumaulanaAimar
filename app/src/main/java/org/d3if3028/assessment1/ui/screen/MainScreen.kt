@@ -60,6 +60,11 @@ fun MainContent(modifier: Modifier, navController: NavController) {
         modifier = modifier.padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text(
+            text = stringResource(id = R.string.intro_utama),
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.fillMaxWidth()
+        )
         Button(
             onClick = { navController.navigate(Screen.Search.route) },
             modifier = Modifier
@@ -68,9 +73,16 @@ fun MainContent(modifier: Modifier, navController: NavController) {
         ) {
             Text(stringResource(id = R.string.fitur1))
         }
-
         Spacer(modifier = Modifier.height(16.dp))
-
+        Button(
+            onClick = { navController.navigate(Screen.Private.route) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+        ) {
+            Text(stringResource(id = R.string.fitur2))
+        }
+        Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = { navController.navigate(Screen.Public.route) },
             modifier = Modifier
