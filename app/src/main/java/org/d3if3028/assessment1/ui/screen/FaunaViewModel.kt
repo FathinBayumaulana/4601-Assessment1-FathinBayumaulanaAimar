@@ -23,11 +23,11 @@ class FaunaViewModel : ViewModel(){
         private set
     var errorMessage = mutableStateOf<String?>(null)
         private set
-    fun retrieveData(userId: String) {
+    fun retrieveData() {
         viewModelScope.launch(Dispatchers.IO) {
             status.value = FaunaStatus.LOADING
             try {
-                data.value = FaunaApi.service.getFauna(userId)
+                data.value = FaunaApi.service.getFauna()
                 status.value = FaunaStatus.SUCCESS
             } catch (e: Exception) {
                 Log.d("MainViewModel", "Failure: ${e.message}")
@@ -35,18 +35,18 @@ class FaunaViewModel : ViewModel(){
             }
         }
     }
-    fun saveData(userId: String, status: String, deskripsi: String, namaLengkap: String, bitmap: Bitmap) {
+    fun saveData(userId: String, nama: String, kingdom: String, makan: String, bitmap: Bitmap) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val result = FaunaApi.service.postFauna(
                     userId,
-                    status.toRequestBody("text/plain".toMediaTypeOrNull()),
-                    deskripsi.toRequestBody("text/plain".toMediaTypeOrNull()),
-                    namaLengkap.toRequestBody("text/plain".toMediaTypeOrNull()),
+                    nama.toRequestBody("text/plain".toMediaTypeOrNull()),
+                    kingdom.toRequestBody("text/plain".toMediaTypeOrNull()),
+                    makan.toRequestBody("text/plain".toMediaTypeOrNull()),
                     bitmap.toMultipartBody()
                 )
                 if (result.status == "success")
-                    retrieveData(userId)
+                    retrieveData()
                 else
                     throw Exception(result.message)
             } catch (e: Exception) {
@@ -55,12 +55,12 @@ class FaunaViewModel : ViewModel(){
             }
         }
     }
-    fun deleteData(userId: String, id: Long) {
+    fun deleteData(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val result = FaunaApi.service.deleteFauna(userId, id)
+                val result = FaunaApi.service.deleteFauna(id)
                 if (result.status == "success")
-                    retrieveData(userId)
+                    retrieveData()
                 else
                     throw Exception(result.message)
             } catch (e: Exception) {

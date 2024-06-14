@@ -8,11 +8,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import org.d3if3028.assessment1.ui.screen.DetailScreen
+import org.d3if3028.assessment1.ui.screen.GaleriScreen
 import org.d3if3028.assessment1.ui.screen.KEY_ID_CATATAN
 import org.d3if3028.assessment1.ui.screen.ListScreen
 import org.d3if3028.assessment1.ui.screen.MainScreen
-import org.d3if3028.assessment1.ui.screen.PrivateScreen
-import org.d3if3028.assessment1.ui.screen.PublicScreen
+import org.d3if3028.assessment1.ui.screen.ProfileScreen
 import org.d3if3028.assessment1.ui.screen.SearchScreen
 
 @Composable
@@ -42,11 +42,11 @@ fun SetupNavGraph(navController: NavHostController = rememberNavController()) {
             val id = navBackStackEntry.arguments?.getLong(KEY_ID_CATATAN)
             DetailScreen(navController, id)
         }
-        composable(route = Screen.Public.route) {
-            PublicScreen(navController)
+        composable(route = Screen.Profile.route) {
+            ProfileScreen(navController)
         }
-        composable(route = Screen.Private.route) {
-            PrivateScreen(navController)
+        composable(route = Screen.Galeri.route) {
+            GaleriScreen(navController)
         }
     }
 }

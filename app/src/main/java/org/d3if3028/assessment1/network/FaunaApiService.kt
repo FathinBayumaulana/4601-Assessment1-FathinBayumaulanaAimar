@@ -17,7 +17,7 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Query
 
-private const val BASE_URL = "https://ghastly-delicate-dragon.ngrok-free.app/link/files/Bayu/"
+private const val BASE_URL = "https://sapi-salto-rpla.000webhostapp.com/files/Web%20Testing/"
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -29,27 +29,25 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface FaunaApiService {
-    @GET(".php")
+    @GET("test_api.php")
     suspend fun getFauna(
-        @Header("Authorization") userId: String
     ): List<Fauna>
-    @GET(".php")
-    suspend fun getAllFauna(
-
-    )
+//    @GET("api_bayu.php")
+//    suspend fun getAllFauna(
+//
+//    )
     @Multipart
-    @POST(".php")
+    @POST("test_api.php")
     suspend fun postFauna(
-        @Header("Authorization") userId: String,
-        @Field("nama") nama: RequestBody,
-        @Field("kingdom") kingdom: RequestBody,
-        @Field("makan") makan: RequestBody,
+        @Part("email") userId: String,
+        @Part("nama") nama: RequestBody,
+        @Part("kingdom") kingdom: RequestBody,
+        @Part("makan") makan: RequestBody,
         @Part image: MultipartBody.Part
     ): OpStatus
-    @DELETE(".php")
+    @DELETE("test_api.php")
     suspend fun deleteFauna(
-        @Header("Authorization") userId: String,
-        @Query("id") id: Long
+        @Query("id") id: Int
     ): OpStatus
 }
 
@@ -57,8 +55,8 @@ object FaunaApi {
     val service: FaunaApiService by lazy {
         retrofit.create(FaunaApiService::class.java)
     }
-    fun getFaunaUrl(imageUrl: String): String {
-        return "${BASE_URL}image.php?id=$imageUrl"
+    fun getFaunaUrl(imageId: String): String {
+        return "${BASE_URL}image.php?id=$imageId"
     }
 }
 

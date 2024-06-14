@@ -2,6 +2,7 @@
     <string name="app_name">Koleksi Hewan</string>
     <string name="fitur1">Pencarian Hewan</string>
     <string name="fitur2">Galeri Hewan</string>
+    <string name="fitur3">Profil Pembuat Aplikasi</string>
     <string name="intro_utama">Aplikasi ini merupakan aplikasi pencarian serta penyimpanan informasi hewan layaknya sebuah kamus/ensiklopedia \nnamun dalam versi yang sangat simpel, cobalah sekarang!</string>
     <string name="intro1">Pilih kategorinya di bawah:</string>
     <string name="intro2">Pilih jenis makanannya di bawah:</string>
@@ -52,4 +53,7 @@
     <string name="simpan_galeri">Simpan</string>
     <string name="hapus_galeri">Hapus</string>
     <string name="konfirmasi">Anda yakin ingin menghapus data ini?</string>
+    <string name="nama_diri">Fathin Bayumaulana Aimar</string>
+    <string name="nim">6706223028</string>
+    <string name="kelas">D3 RPLA 4601</string>
 </resources>

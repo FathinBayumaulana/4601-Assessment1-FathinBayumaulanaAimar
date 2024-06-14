@@ -65,6 +65,7 @@ fun MainContent(modifier: Modifier, navController: NavController) {
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.fillMaxWidth()
         )
+        Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = { navController.navigate(Screen.Search.route) },
             modifier = Modifier
@@ -75,7 +76,7 @@ fun MainContent(modifier: Modifier, navController: NavController) {
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(
-            onClick = { navController.navigate(Screen.Private.route) },
+            onClick = { navController.navigate(Screen.Galeri.route) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
@@ -84,12 +85,12 @@ fun MainContent(modifier: Modifier, navController: NavController) {
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(
-            onClick = { navController.navigate(Screen.Public.route) },
+            onClick = { navController.navigate(Screen.Profile.route) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         ) {
-            Text(stringResource(id = R.string.fitur2))
+            Text(stringResource(id = R.string.fitur3))
         }
     }
 }

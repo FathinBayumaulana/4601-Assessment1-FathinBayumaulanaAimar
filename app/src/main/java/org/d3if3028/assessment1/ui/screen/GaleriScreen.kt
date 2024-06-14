@@ -90,7 +90,7 @@ import org.d3if3028.assessment1.ui.theme.Assessment1Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PrivateScreen(navController: NavHostController) {
+fun GaleriScreen(navController: NavHostController) {
     val context = LocalContext.current
     val dataStore = UserDataStore(context)
     val user by dataStore.userFlow.collectAsState(User())
@@ -162,7 +162,7 @@ fun PrivateScreen(navController: NavHostController) {
             }
         }
     ) { paddingValues ->
-        PrivateContent(viewModel, user.email, Modifier.padding(paddingValues))
+        GaleriContent(viewModel, user.email, Modifier.padding(paddingValues))
 
         if (showDialog) {
             ProfilDialog(
@@ -178,7 +178,6 @@ fun PrivateScreen(navController: NavHostController) {
                 bitmap = bitmap,
                 onDismissRequest = { showHewanDialog = false }
             ) { nama, kingdom, makan ->
-//                Log.d("TAMBAH", "$nama $namaLatin ditambahkan.")
                 viewModel.saveData(user.email, nama, kingdom, makan, bitmap!!)
                 showHewanDialog = false
             }
@@ -191,11 +190,11 @@ fun PrivateScreen(navController: NavHostController) {
 }
 
 @Composable
-fun PrivateContent(viewModel: FaunaViewModel, userId: String, modifier: Modifier) {
+fun GaleriContent(viewModel: FaunaViewModel, userId: String, modifier: Modifier) {
     val data by viewModel.data
     val status by viewModel.status.collectAsState()
     LaunchedEffect(userId) {
-        viewModel.retrieveData(userId)
+        viewModel.retrieveData()
     }
 
     when (status) {
@@ -215,7 +214,7 @@ fun PrivateContent(viewModel: FaunaViewModel, userId: String, modifier: Modifier
                 columns = GridCells.Fixed(2),
                 contentPadding = PaddingValues(bottom = 80.dp)
             ) {
-                items(data) { PrivateItem(fauna = it, viewModel = viewModel, userId = userId) }
+                items(data) { GaleriItem(fauna = it, viewModel = viewModel, userId = userId) }
             }
         }
         FaunaStatus.FAILED -> {
@@ -226,7 +225,7 @@ fun PrivateContent(viewModel: FaunaViewModel, userId: String, modifier: Modifier
             ) {
                 Text(text = stringResource(id = R.string.error))
                 Button(
-                    onClick = { viewModel.retrieveData(userId) },
+                    onClick = { viewModel.retrieveData() },
                     modifier = Modifier.padding(top = 16.dp),
                     contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
                 ) {
@@ -238,7 +237,7 @@ fun PrivateContent(viewModel: FaunaViewModel, userId: String, modifier: Modifier
 }
 
 @Composable
-fun PrivateItem(fauna: Fauna, viewModel: FaunaViewModel, userId: String) {
+fun GaleriItem(fauna: Fauna, viewModel: FaunaViewModel, userId: String) {
     var showDeleteDialog by remember { mutableStateOf(false) }
 
     Box(
@@ -253,7 +252,7 @@ fun PrivateItem(fauna: Fauna, viewModel: FaunaViewModel, userId: String) {
 //                    if (hewan.nama == "Ayam")
 //                        HewanApi.getHewanUrl("not-found")
 //                    else
-                    FaunaApi.getFaunaUrl(fauna.imageUrl)
+                    FaunaApi.getFaunaUrl(fauna.image)
                 )
                 .crossfade(true)
                 .build(),
@@ -278,6 +277,11 @@ fun PrivateItem(fauna: Fauna, viewModel: FaunaViewModel, userId: String) {
             ){
                 Column {
                     Text(
+                        text = fauna.nama,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Text(
                         text = fauna.kingdom,
                         fontStyle = FontStyle.Italic,
                         fontSize = 14.sp,
@@ -298,7 +302,7 @@ fun PrivateItem(fauna: Fauna, viewModel: FaunaViewModel, userId: String) {
                         if (showDeleteDialog){
                             DeleteDialog(
                                 onDismissRequest = { showDeleteDialog = false}) {
-                                CoroutineScope(Dispatchers.IO).launch { viewModel.deleteData(userId, fauna.id) }
+                                CoroutineScope(Dispatchers.IO).launch { viewModel.deleteData(fauna.id) }
                             }
                         }
                     }
@@ -374,6 +378,6 @@ private fun getCroppedImage(resolver: ContentResolver, result: CropImageView.Cro
 @Composable
 fun PrivatePreview() {
     Assessment1Theme {
-        PrivateScreen(rememberNavController())
+        GaleriScreen(rememberNavController())
     }
 }

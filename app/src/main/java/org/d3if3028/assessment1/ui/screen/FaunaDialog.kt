@@ -74,7 +74,7 @@ fun FaunaDialog(bitmap: Bitmap?, onDismissRequest: () -> Unit, onConfirmation: (
                     label = { Text(text = stringResource(id = R.string.kingdom)) },
                     maxLines = 1,
                     keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.Words,
+                        capitalization = KeyboardCapitalization.Sentences,
                         imeAction = ImeAction.Next
                     ),
                     modifier = Modifier.padding(top = 8.dp)
