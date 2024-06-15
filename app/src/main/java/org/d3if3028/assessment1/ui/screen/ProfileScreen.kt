@@ -76,7 +76,7 @@ fun ProfileContent(modifier: Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.kuradarat),
+            painter = painterResource(id = R.drawable.whatsapp_image_2024_06_14_at_13_57_52_1b32d84f),
             contentDescription = "Profile Picture",
             modifier = Modifier
                 .size(200.dp)
