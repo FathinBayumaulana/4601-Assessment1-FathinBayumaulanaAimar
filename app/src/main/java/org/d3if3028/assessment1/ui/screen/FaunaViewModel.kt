@@ -1,90 +1,86 @@
 package org.d3if3028.assessment1.ui.screen
 
-import FaunaStatus
 import android.graphics.Bitmap
 import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.d3if3028.assessment1.model.Fauna
+import org.d3if3028.assessment1.network.FaunaApi
+import org.d3if3028.assessment1.network.FaunaStatus
 import java.io.ByteArrayOutputStream
 
 class FaunaViewModel : ViewModel() {
-    private val _faunaData = MutableLiveData<List<Fauna>>()
-    val faunaData: LiveData<List<Fauna>> get() = _faunaData
-
-    var _status = MutableStateFlow(FaunaStatus.LOADING)
+    var data = mutableStateOf(emptyList<Fauna>())
         private set
-    val status: StateFlow<FaunaStatus> get() = _status
-
-    init {
-        getAllFauna()
-    }
-
-    fun getAllFauna() {
+    var status = MutableStateFlow(FaunaStatus.LOADING)
+        private set
+    var errorMessage = mutableStateOf<String?>(null)
+        private set
+    fun retrieveData(userId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _status.value = FaunaStatus.LOADING
+            status.value = FaunaStatus.LOADING
             try {
-                val response = FaunaAPI.retrofitService.getAllFauna()
-                _faunaData.postValue(response.results)
-                _status.value = FaunaStatus.SUCCESS
+                data.value = FaunaApi.service.getFauna(userId)
+                status.value = FaunaStatus.SUCCESS
             } catch (e: Exception) {
-                _status.value = FaunaStatus.FAILED
-                Log.e("FaunaViewModel", "[Get All Fauna] Error: ${e.message}")
+                Log.d("MainViewModel", "Failure: ${e.message}")
+                status.value = FaunaStatus.FAILED
             }
         }
     }
-
-    fun addFauna(email: String, namaFauna: String, kingdom: String, makan: String, image: Bitmap?) {
+    fun saveData(userId: String, nama: String, kingdom: String, makan: String, bitmap: Bitmap) {
         viewModelScope.launch(Dispatchers.IO) {
-            _status.value = FaunaStatus.LOADING
             try {
-                val emailPart = email.toRequestBody("text/plain".toMediaTypeOrNull())
-                val namaFaunaPart = namaFauna.toRequestBody("text/plain".toMediaTypeOrNull())
-                val kingdomPart = kingdom.toRequestBody("text/plain".toMediaTypeOrNull())
-                val makanPart = makan.toRequestBody("text/plain".toMediaTypeOrNull())
-
-                val imagePart: MultipartBody.Part? = image?.let {
-                    val byteArrayOutputStream = ByteArrayOutputStream()
-                    it.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-                    val requestBody = RequestBody.create("image/jpeg".toMediaTypeOrNull(), byteArrayOutputStream.toByteArray())
-                    MultipartBody.Part.createFormData("imageUrl", "image.jpg", requestBody)
-                }
-
-                val response = FaunaAPI.retrofitService.addFauna(emailPart, namaFaunaPart, kingdomPart, makanPart, imagePart)
-                _faunaData.postValue(response.results)
-                _status.value = FaunaStatus.SUCCESS
+                val result = FaunaApi.service.postFauna(
+                    userId,
+                    nama.toRequestBody("text/plain".toMediaTypeOrNull()),
+                    kingdom.toRequestBody("text/plain".toMediaTypeOrNull()),
+                    makan.toRequestBody("text/plain".toMediaTypeOrNull()),
+                    bitmap.toMultipartBody()
+                )
+                if (result.status == "success")
+                    retrieveData(userId)
+                else
+                    throw Exception(result.message)
             } catch (e: Exception) {
-                _status.value = FaunaStatus.FAILED
-                Log.e("FaunaViewModel", "[Add Fauna] Error: ${e.message}")
+                Log.d("MainViewModel", "Failure: ${e.message}")
+                errorMessage.value = "Error: ${e.message}"
             }
         }
     }
-
-    fun deleteFauna(id: String) {
+    fun deleteData(userId: String, id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            _status.value = FaunaStatus.LOADING
             try {
-                val idPart = id.toRequestBody("text/plain".toMediaTypeOrNull())
-                val response = FaunaAPI.retrofitService.deleteFauna(idPart)
-                _faunaData.postValue(response.results)
-                _status.value = FaunaStatus.SUCCESS
+                val result = FaunaApi.service.deleteFauna(userId, id)
+                if (result.status == "success")
+                    retrieveData(userId)
+                else
+                    throw Exception(result.message)
             } catch (e: Exception) {
-                _status.value = FaunaStatus.FAILED
-                Log.e("FaunaViewModel", "[Delete Fauna] Error: ${e.message}")
+                Log.d("MainViewModel", "Failure: ${e.message}")
+                errorMessage.value = "Error: ${e.message}"
             }
         }
+    }
+    private fun Bitmap.toMultipartBody(): MultipartBody.Part {
+        val stream = ByteArrayOutputStream()
+        compress(Bitmap.CompressFormat.JPEG, 80, stream)
+        val byteArray = stream.toByteArray()
+        val requestBody = byteArray.toRequestBody(
+            "image/jpg".toMediaTypeOrNull(), 0, byteArray.size
+        )
+        return MultipartBody.Part.createFormData(
+            "image", "image.jpg", requestBody
+        )
+    }
+    fun clearMessage() {
+        errorMessage.value = null
     }
 }

@@ -1,56 +1,64 @@
+package org.d3if3028.assessment1.network
+
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.d3if3028.assessment1.model.Fauna
+import org.d3if3028.assessment1.model.OpStatus
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Query
 
-private const val BASE_URL = "https://fenris-api-host.000webhostapp.com/files/Bayu%20Maul/"
+private const val BASE_URL = "https://unspoken.my.id/"
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
 private val retrofit = Retrofit.Builder()
-    .baseUrl(BASE_URL)
     .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .baseUrl(BASE_URL)
     .build()
 
-data class FaunaResponse(
-    val results: List<Fauna>
-)
-
-interface FaunaServices {
+interface FaunaApiService {
+    @GET("api_bayu.php")
+    suspend fun getFauna(
+        @Header("Authorization") userId: String
+    ): List<Fauna>
     @Multipart
-    @POST("add_fauna.php")
-    suspend fun addFauna(
-        @Part("email") email: RequestBody,
-        @Part("namaFauna") namaFauna: RequestBody,
+    @POST("api_bayu.php")
+    suspend fun postFauna(
+        @Header("Authorization") userId: String,
+        @Part("nama") namaFauna: RequestBody,
         @Part("kingdom") kingdom: RequestBody,
         @Part("makan") makan: RequestBody,
-        @Part imageUrl: MultipartBody.Part?
-    ): FaunaResponse
-
-    @POST("delete_fauna.php")
-    suspend fun deleteFauna(@Part("id") id: RequestBody): FaunaResponse
-
-    @GET("get_fauna.php")
-    suspend fun getAllFauna(): FaunaResponse
+        @Part imageUrl: MultipartBody.Part
+    ): OpStatus
+    @DELETE("api_bayu.php")
+    suspend fun deleteFauna(
+        @Header("Authorization") userId: String,
+        @Query("id") id: Int
+    ): OpStatus
 }
 
-object FaunaAPI {
-    val retrofitService: FaunaServices by lazy {
-        retrofit.create(FaunaServices::class.java)
+object FaunaApi {
+    val service: FaunaApiService by lazy {
+        retrofit.create(FaunaApiService::class.java)
     }
-
-    fun imgUrl(imageId: String): String {
-        return "$BASE_URL$imageId"
+    fun getFaunaUrl(imageUrl: String): String {
+        return "${BASE_URL}image.php?id=$imageUrl"
     }
 }
 
-enum class FaunaStatus { LOADING, SUCCESS, FAILED }
+enum class FaunaStatus {
+    LOADING,
+    SUCCESS,
+    FAILED
+}

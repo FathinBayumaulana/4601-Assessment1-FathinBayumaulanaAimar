@@ -186,7 +186,8 @@ fun FormCatatan(nama: String, onNama: (String) -> Unit, kingdom: String, onKingd
             label = { Text(text = stringResource(R.string.nama)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
-                capitalization = KeyboardCapitalization.Words
+                capitalization = KeyboardCapitalization.Words,
+                imeAction = ImeAction.Next
             ),
             modifier = Modifier.fillMaxWidth()
         )
@@ -205,7 +206,8 @@ fun FormCatatan(nama: String, onNama: (String) -> Unit, kingdom: String, onKingd
             onValueChange = { onMakan(it) },
             label = { Text(text = stringResource(R.string.makan)) },
             keyboardOptions = KeyboardOptions(
-                capitalization = KeyboardCapitalization.Sentences
+                capitalization = KeyboardCapitalization.Sentences,
+                imeAction = ImeAction.Done
             ),
             modifier = Modifier.fillMaxWidth()
         )

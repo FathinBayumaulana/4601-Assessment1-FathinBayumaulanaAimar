@@ -1,26 +1,19 @@
 package org.d3if3028.assessment1.ui.screen
 
-import FaunaAPI
-import android.Manifest
-import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
-import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -50,7 +43,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -66,8 +58,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
@@ -95,6 +85,8 @@ import org.d3if3028.assessment1.BuildConfig
 import org.d3if3028.assessment1.R
 import org.d3if3028.assessment1.model.Fauna
 import org.d3if3028.assessment1.model.User
+import org.d3if3028.assessment1.network.FaunaApi
+import org.d3if3028.assessment1.network.FaunaStatus
 import org.d3if3028.assessment1.network.UserDataStore
 import org.d3if3028.assessment1.ui.theme.Assessment1Theme
 import java.io.IOException
@@ -107,12 +99,12 @@ fun GaleriScreen(navController: NavHostController) {
     val dataStore = UserDataStore(context)
     val user by dataStore.userFlow.collectAsState(User())
     val viewModel: FaunaViewModel = viewModel()
-//    val errorMessage by viewModel.errorMessage
+    val errorMessage by viewModel.errorMessage
     var showDialog by remember { mutableStateOf(false) }
     var showHewanDialog by remember { mutableStateOf(false) }
     var bitmap: Bitmap? by remember { mutableStateOf(null) }
-    val launcher = rememberLauncherForActivityResult(CropImageContract()) { result ->
-        bitmap = getCroppedImage(context.contentResolver, result)
+    val launcher = rememberLauncherForActivityResult(CropImageContract()) {
+        bitmap = getCroppedImage(context.contentResolver, it)
         if (bitmap != null)
             showHewanDialog = true
     }
@@ -190,7 +182,7 @@ fun GaleriScreen(navController: NavHostController) {
                 bitmap = bitmap,
                 onDismissRequest = { showHewanDialog = false }
             ) { nama, kingdom, makan ->
-                viewModel.addFauna(user.email, nama, kingdom, makan, bitmap!!)
+                viewModel.saveData(user.email, nama, kingdom, makan, bitmap!!)
                 showHewanDialog = false
             }
         }
@@ -203,10 +195,10 @@ fun GaleriScreen(navController: NavHostController) {
 
 @Composable
 fun GaleriContent(viewModel: FaunaViewModel, userId: String, modifier: Modifier) {
-    val data by viewModel.faunaData.observeAsState(emptyList())
+    val data by viewModel.data
     val status by viewModel.status.collectAsState()
     LaunchedEffect(userId) {
-        viewModel.getAllFauna()
+        viewModel.retrieveData(userId)
     }
 
     when (status) {
@@ -237,7 +229,7 @@ fun GaleriContent(viewModel: FaunaViewModel, userId: String, modifier: Modifier)
             ) {
                 Text(text = stringResource(id = R.string.error))
                 Button(
-                    onClick = { viewModel.getAllFauna() },
+                    onClick = { viewModel.retrieveData(userId) },
                     modifier = Modifier.padding(top = 16.dp),
                     contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
                 ) {
@@ -258,24 +250,22 @@ fun GaleriItem(fauna: Fauna, viewModel: FaunaViewModel, userId: String) {
             .border(1.dp, Color.Gray),
         contentAlignment = Alignment.BottomCenter
     ) {
-        SubcomposeAsyncImage(
+        AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(
 //                    if (hewan.nama == "Ayam")
 //                        HewanApi.getHewanUrl("not-found")
 //                    else
-                    FaunaAPI.imgUrl(fauna.image)
+                    FaunaApi.getFaunaUrl(fauna.imageUrl)
                 )
                 .crossfade(true)
                 .build(),
             contentDescription = stringResource(R.string.gambar, fauna.nama),
             contentScale = ContentScale.Crop,
-//            placeholder = painterResource(id = R.drawable.loading_img),
-            error = { painterResource(id = R.drawable.baseline_broken_image_24) },
+            placeholder = painterResource(id = R.drawable.loading_img),
+            error = painterResource(id = R.drawable.baseline_broken_image_24),
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(max = 250.dp)
-                .widthIn(max = 250.dp)
                 .padding(4.dp)
         )
         Column(
@@ -316,7 +306,7 @@ fun GaleriItem(fauna: Fauna, viewModel: FaunaViewModel, userId: String) {
                         if (showDeleteDialog){
                             DeleteDialog(
                                 onDismissRequest = { showDeleteDialog = false}) {
-                                CoroutineScope(Dispatchers.IO).launch { viewModel.deleteFauna(fauna.id) }
+                                CoroutineScope(Dispatchers.IO).launch { viewModel.deleteData(userId, fauna.id) }
                             }
                         }
                     }
@@ -379,26 +369,11 @@ private fun getCroppedImage(resolver: ContentResolver, result: CropImageView.Cro
         return null
     }
     val uri = result.uriContent ?: return null
-    Log.d("IMAGE", "URI: $uri")
-    if (uri == null) {
-        Log.e("IMAGE", "URI is null")
-        return null
-    }
     return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-        try {
-            MediaStore.Images.Media.getBitmap(resolver, uri)
-        } catch (e: IOException) {
-            Log.e("IMAGE", "Error decoding bitmap: ${e.message}")
-            null
-        }
+        MediaStore.Images.Media.getBitmap(resolver, uri)
     } else {
-        try {
-            val source = ImageDecoder.createSource(resolver, uri)
-            ImageDecoder.decodeBitmap(source)
-        } catch (e: IOException) {
-            Log.e("IMAGE", "Error decoding bitmap: ${e.message}")
-            null
-        }
+        val source = ImageDecoder.createSource(resolver, uri)
+        ImageDecoder.decodeBitmap(source)
     }
 }
 
