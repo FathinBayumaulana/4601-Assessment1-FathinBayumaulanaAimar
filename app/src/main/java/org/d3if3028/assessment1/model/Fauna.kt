@@ -6,5 +6,5 @@ data class Fauna(
     val nama: String,
     val kingdom: String,
     val makan: String,
-    val imageUrl: String
+    val imageId: String
 )

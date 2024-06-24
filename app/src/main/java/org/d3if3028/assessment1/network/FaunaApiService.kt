@@ -39,7 +39,7 @@ interface FaunaApiService {
         @Part("nama") namaFauna: RequestBody,
         @Part("kingdom") kingdom: RequestBody,
         @Part("makan") makan: RequestBody,
-        @Part imageUrl: MultipartBody.Part
+        @Part imageId: MultipartBody.Part
     ): OpStatus
     @DELETE("api_bayu.php")
     suspend fun deleteFauna(
@@ -52,8 +52,8 @@ object FaunaApi {
     val service: FaunaApiService by lazy {
         retrofit.create(FaunaApiService::class.java)
     }
-    fun getFaunaUrl(imageUrl: String): String {
-        return "${BASE_URL}image.php?id=$imageUrl"
+    fun getFaunaUrl(imageId: String): String {
+        return "${BASE_URL}image.php?id=$imageId"
     }
 }
 

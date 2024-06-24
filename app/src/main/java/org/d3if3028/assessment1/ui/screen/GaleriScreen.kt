@@ -256,7 +256,7 @@ fun GaleriItem(fauna: Fauna, viewModel: FaunaViewModel, userId: String) {
 //                    if (hewan.nama == "Ayam")
 //                        HewanApi.getHewanUrl("not-found")
 //                    else
-                    FaunaApi.getFaunaUrl(fauna.imageUrl)
+                    FaunaApi.getFaunaUrl(fauna.imageId)
                 )
                 .crossfade(true)
                 .build(),
