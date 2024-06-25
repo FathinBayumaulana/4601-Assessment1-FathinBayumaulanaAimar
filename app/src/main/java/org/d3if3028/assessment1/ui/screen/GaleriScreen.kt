@@ -8,6 +8,7 @@ import android.graphics.ImageDecoder
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -186,10 +187,10 @@ fun GaleriScreen(navController: NavHostController) {
                 showHewanDialog = false
             }
         }
-//        if (errorMessage != null) {
-//            Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
-//            viewModel.clearMessage()
-//        }
+        if (errorMessage != null) {
+            Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+            viewModel.clearMessage()
+        }
     }
 }
 
