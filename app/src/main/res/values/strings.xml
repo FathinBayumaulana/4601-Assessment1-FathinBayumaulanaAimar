@@ -13,9 +13,9 @@
     <string name="aves">Aves</string>
     <string name="mamalia">Mamalia</string>
     <string name="cara_makan">Makanan Hewan</string>
-    <string name="herbivora">Herbivora</string>
-    <string name="karnivora">Karnivora</string>
-    <string name="omnivora">Omnivora</string>
+    <string name="herbivora" translatable="false">Herbivora</string>
+    <string name="karnivora" translatable="false">Karnivora</string>
+    <string name="omnivora" translatable="false">Omnivora</string>
     <string name="cari">Cari</string>
     <string name="list_hewan">Daftar Hewan</string>
     <string name="deskripsi">Di bawah ini merupakan daftar informasi mengenai beberapa hewan:</string>
@@ -56,4 +56,19 @@
     <string name="nama_diri">Fathin Bayumaulana Aimar</string>
     <string name="nim">6706223028</string>
     <string name="kelas">D3 RPLA 4601</string>
+    <string name="lista1">Kodok Pohon, Katak Amerika, Salamander Cecak</string>
+    <string name="lista2">Katak Goliath, Salamander berjengger, Axolotl, Katak darat Afrika, Katak pohon Amerika Selatan</string>
+    <string name="lista3">Katak darat Amerika, Katak darat Eropa, Katak pohon merah, Salamander warna-warni, Katak merah</string>
+    <string name="listb1">Burung Beo, Burung Puyuh, Burung Merpati, Kalkun, Burung Flamengo</string>
+    <string name="listb2">Elang Botak, Falcon, Burung hantu, Rajawali, Alap-alap</string>
+    <string name="listb3">Ayam, Merak, Burung pelatuk, Burung Kutilang, Burung Merpati Bandar</string>
+    <string name="listc1">Gajah Afrika, Sapi, Kuda, Rusa, Kelinci</string>
+    <string name="listc2">Singa, Harimau, Serigala abu-abu, Macan Tutul, Beruang cokelat</string>
+    <string name="listc3">Babi, Beruang hitam, Tupai, Rakun, Musang</string>
+    <string name="listd1">Ikan Teri, Ikan Gurami, Ikan Sargassum, Ikan Parrot, Ikan Koi</string>
+    <string name="listd2">Ikan Piranha, Ikan Hiu, Ikan Lele, Ikan Tuna, Ikan Bass</string>
+    <string name="listd3">Ikan Mas, Ikan Mas Koki, Ikan Guppy, Ikan Betta, Ikan Rainbow</string>
+    <string name="liste1">Kura-kura darat, Iguana hijau, Kura-kura air tawar, Kadal Iguana, Kura-kura Galapagos</string>
+    <string name="liste2">Buaya Nil, Ular King Cobra, Kadal Komodo, Ular Piton, Ular Kobra</string>
+    <string name="liste3">Kura-kura darat Afrika, Kura-kura sawah, Kadal semut, Kadal air, Ular Mamba hitam</string>
 </resources>

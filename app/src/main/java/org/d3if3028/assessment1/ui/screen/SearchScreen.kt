@@ -194,7 +194,7 @@ fun SearchContent(modifier: Modifier) {
             }
         }
         Button(
-            onClick = { pencarian = cariHewan(kategori, makanan, checkboxOptions) },
+            onClick = { pencarian = cariHewan(context, kategori, makanan, checkboxOptions) },
             modifier = Modifier.padding(top = 8.dp),
             contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
         ) {
@@ -274,32 +274,32 @@ fun MakananOption(label: String, isChecked: Boolean, onCheckedChange: (Boolean) 
     }
 }
 
-private fun cariHewan(kategori: String, makanan: List<Boolean>, checkboxOptions: List<String>): String {
+private fun cariHewan(context: Context, kategori: String, makanan: List<Boolean>, checkboxOptions: List<String>): String {
     val hewanMap = mapOf(
-        "Amfibi" to mapOf(
-            "Herbivora" to listOf("Kodok Pohon, Katak Amerika, Salamander Cecak"),
-            "Karnivora" to listOf("Katak Goliath, Salamander berjengger, Axolotl, Katak darat Afrika, Katak pohon Amerika Selatan"),
-            "Omnivora" to listOf("Katak darat Amerika, Katak darat Eropa, Katak pohon merah, Salamander warna-warni, Katak merah")
+        context.getString(R.string.amfibi) to mapOf(
+            "Herbivora" to listOf(context.getString(R.string.lista1)),
+            "Karnivora" to listOf(context.getString(R.string.lista2)),
+            "Omnivora" to listOf(context.getString(R.string.lista3)),
         ),
-        "Aves" to mapOf(
-            "Herbivora" to listOf("Burung Beo, Burung Puyuh, Burung Merpati, Kalkun, Burung Flamengo"),
-            "Karnivora" to listOf("Elang Botak, Falcon, Burung hantu, Rajawali, Alap-alap"),
-            "Omnivora" to listOf("Ayam, Merak, Burung pelatuk, Burung Kutilang, Burung Merpati Bandar")
+        context.getString(R.string.aves) to mapOf(
+            "Herbivora" to listOf(context.getString(R.string.listb1)),
+            "Karnivora" to listOf(context.getString(R.string.listb2)),
+            "Omnivora" to listOf(context.getString(R.string.listb3))
         ),
-        "Mamalia" to mapOf(
-            "Herbivora" to listOf("Gajah Afrika, Sapi, Kuda, Rusa, Kelinci"),
-            "Karnivora" to listOf("Singa, Harimau, Serigala abu-abu, Macan Tutul, Beruang cokelat"),
-            "Omnivora" to listOf("Babi, Beruang hitam, Tupai, Rakun, Musang")
+        context.getString(R.string.mamalia) to mapOf(
+            "Herbivora" to listOf(context.getString(R.string.listc1)),
+            "Karnivora" to listOf(context.getString(R.string.listc2)),
+            "Omnivora" to listOf(context.getString(R.string.listc3))
         ),
-        "Pisces" to mapOf(
-            "Herbivora" to listOf("Ikan Teri, Ikan Gurami, Ikan Sargassum, Ikan Parrot, Ikan Koi"),
-            "Karnivora" to listOf("Ikan Piranha, Ikan Hiu, Ikan Lele, Ikan Tuna, Ikan Bass"),
-            "Omnivora" to listOf("Ikan Mas, Ikan Mas Koki, Ikan Guppy, Ikan Betta, Ikan Rainbow")
+        context.getString(R.string.pisces) to mapOf(
+            "Herbivora" to listOf(context.getString(R.string.listd1)),
+            "Karnivora" to listOf(context.getString(R.string.listd2)),
+            "Omnivora" to listOf(context.getString(R.string.listd3))
         ),
-        "Reptilia" to mapOf(
-            "Herbivora" to listOf("Kura-kura darat, Iguana hijau, Kura-kura air tawar, Kadal Iguana, Kura-kura Galapagos"),
-            "Karnivora" to listOf("Buaya Nil, Ular King Cobra, Kadal Komodo, Ular Piton, Ular Kobra"),
-            "Omnivora" to listOf("Kura-kura darat Afrika, Kura-kura sawah, Kadal semut, Kadal air, Ular Mamba hitam")
+        context.getString(R.string.reptilia) to mapOf(
+            "Herbivora" to listOf(context.getString(R.string.liste1)),
+            "Karnivora" to listOf(context.getString(R.string.liste2)),
+            "Omnivora" to listOf(context.getString(R.string.liste3))
         )
     )
     val selectedMakan = mutableListOf<String>()
@@ -309,13 +309,13 @@ private fun cariHewan(kategori: String, makanan: List<Boolean>, checkboxOptions:
         }
     }
     if (selectedMakan.isEmpty()) {
-        return "Tidak ada jenis makanan yang dipilih"
+        return context.getString(R.string.bagikan_template1)
     }
     val hewanList = hewanMap[kategori]?.let { map ->
         map.filterKeys { selectedMakan.contains(it) }.flatMap { (_, hewan) -> hewan }
     } ?: emptyList()
     val teks = "Hewan $kategori yang ${selectedMakan.joinToString(", ")} ada: "
-    return "$teks${hewanList.joinToString(", ")}"
+    return "$teks${hewanList.joinToString(", ")}."
 }
 
 private fun shareData(context: Context, message: String) {
